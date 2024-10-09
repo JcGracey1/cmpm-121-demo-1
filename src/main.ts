@@ -27,8 +27,20 @@ button.addEventListener("click", () => {
   counterDiv.innerHTML = `${counter} Ducks`;
 });
 
-// Automatically increment count by 1 per second:
-setInterval(() => {
-    counter++;
-    counterDiv.innerHTML = `${counter} Ducks`;
-  }, 1000); // Increment every 1000ms (1 second)
+let lastTime = performance.now();
+const incrementPerSecond = 1;
+
+function updateCounter(currentTime: number) {
+  const deltaTime = (currentTime - lastTime) / 1000; // Time passed in seconds
+  lastTime = currentTime;
+  
+  // Increment counter based on how much time passed
+  counter += deltaTime * incrementPerSecond;
+  counterDiv.innerHTML = `${counter.toFixed(1)} Ducks`; // Limit to 2 decimal places
+
+  // Request the next animation frame
+  requestAnimationFrame(updateCounter);
+}
+
+// Start the animation loop
+requestAnimationFrame(updateCounter);
