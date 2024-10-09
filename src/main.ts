@@ -15,7 +15,14 @@ const button = document.createElement("button");
 button.innerHTML = "Quack 🦆";
 app.append(button);
 
+// Div element to display count:
+const counterDiv = document.createElement("div");
+let counter: number = 0;
+counterDiv.innerHTML = `${counter} Ducks`;
+app.append(counterDiv);
+
 // Add event listener to button (when its clicked)
 button.addEventListener("click", () => {
-    // add event
-})
+  counter++;
+  counterDiv.innerHTML = `${counter} Ducks`;
+});
