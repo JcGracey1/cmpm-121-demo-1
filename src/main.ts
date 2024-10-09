@@ -26,3 +26,9 @@ button.addEventListener("click", () => {
   counter++;
   counterDiv.innerHTML = `${counter} Ducks`;
 });
+
+// Automatically increment count by 1 per second:
+setInterval(() => {
+    counter++;
+    counterDiv.innerHTML = `${counter} Ducks`;
+  }, 1000); // Increment every 1000ms (1 second)
