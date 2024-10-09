@@ -18,25 +18,71 @@ app.append(button);
 // Div element to display count:
 const counterDiv = document.createElement("div");
 let counter: number = 0;
-counterDiv.innerHTML = `${counter} Ducks`;
+counterDiv.innerHTML = `${counter.toFixed(2)} Ducks`;
 app.append(counterDiv);
 
-// Upgrade button:
-const upgradeButton = document.createElement("button");
-upgradeButton.innerHTML = "Buy Upgrade (+1 Growth Rate)";
-upgradeButton.disabled = true; // Initially disabled until 10 units are reached
-app.append(upgradeButton);
+// Div element to display the current growth rate:
+const growthRateDiv = document.createElement("div");
+let growthRate: number = 0; // Initial growth rate is 0
+growthRateDiv.innerHTML = `Growth Rate: ${growthRate.toFixed(2)} Ducks/sec`;
+app.append(growthRateDiv);
 
+// Define the interface for upgrade items
+interface UpgradeItem {
+  name: string;
+  cost: number;
+  rate: number;
+  count: number;
+  button?: HTMLButtonElement; // Optional button reference
+}
 
-// Add event listener to button (when its clicked)
-button.addEventListener("click", () => {
-  counter++;
-  counterDiv.innerHTML = `${counter.toFixed(1)} Ducks`;
-  checkUpgradeAvailability();
+// Upgrade options:
+const items: UpgradeItem[] = [
+  { name: "A", cost: 10, rate: 0.1, count: 0 },
+  { name: "B", cost: 100, rate: 2.0, count: 0 },
+  { name: "C", cost: 1000, rate: 50.0, count: 0 }
+];
+
+// Create upgrade buttons and status displays for each item
+items.forEach((item) => {
+  const upgradeButton = document.createElement("button");
+  upgradeButton.innerHTML = `Buy ${item.name} (+${item.rate} ducks/sec, costs ${item.cost})`;
+  upgradeButton.disabled = true; // Initially disabled
+  app.append(upgradeButton);
+
+  const itemStatusDiv = document.createElement("div");
+  itemStatusDiv.innerHTML = `${item.name} purchased: ${item.count}`;
+  app.append(itemStatusDiv);
+
+  // Add event listener to each upgrade button
+  upgradeButton.addEventListener("click", () => {
+    if (counter >= item.cost) {
+      counter -= item.cost; // Deduct cost
+      growthRate += item.rate; // Increase growth rate by item's rate
+      item.count++; // Increment the purchase count
+
+      // Update the display
+      counterDiv.innerHTML = `${counter.toFixed(2)} Ducks`;
+      itemStatusDiv.innerHTML = `${item.name} purchased: ${item.count}`;
+      growthRateDiv.innerHTML = `Growth Rate: ${growthRate.toFixed(2)} Ducks/sec`; // Update growth rate display
+      checkUpgradeAvailability(); // Recheck if other items are available
+    }
+  });
+
+  // Save button reference for future enabling/disabling
+  item.button = upgradeButton;
 });
 
+// Check if any upgrade button should be enabled
+function checkUpgradeAvailability() {
+  items.forEach((item) => {
+    if (item.button) {
+      item.button.disabled = counter < item.cost; // Enable only if player can afford it
+    }
+  });
+}
+
 let lastTime = performance.now();
-let growthRate = 0;
 
 function updateCounter(currentTime: number) {
   const deltaTime = (currentTime - lastTime) / 1000; // Time passed in seconds
@@ -44,26 +90,18 @@ function updateCounter(currentTime: number) {
 
   // Increment counter based on how much time passed
   counter += deltaTime * growthRate;
-  counterDiv.innerHTML = `${counter.toFixed(1)} Ducks`; // Limit to 2 decimal places
+  counterDiv.innerHTML = `${counter.toFixed(2)} Ducks`; // Limit to 2 decimal places
 
   // Request the next animation frame
   requestAnimationFrame(updateCounter);
 }
 
-// Add event listener to upgrade button (purchasing the upgrade)
-upgradeButton.addEventListener("click", () => {
-    if (counter >= 10) {
-      counter -= 10; // Deduct 10 units from counter
-      growthRate += 1; // Increase the automatic growth rate
-      counterDiv.innerHTML = `${counter.toFixed(2)} Ducks`;
-      checkUpgradeAvailability(); // Check if upgrade button should remain enabled
-    }
-});
-
-// Check if upgrade button should be enabled or disabled
-function checkUpgradeAvailability() {
-    upgradeButton.disabled = counter < 10; // Enable if counter is >= 10, otherwise disable
-}
-
 // Start the animation loop
 requestAnimationFrame(updateCounter);
+
+// Add event listener to main button (when it's clicked)
+button.addEventListener("click", () => {
+  counter++;
+  counterDiv.innerHTML = `${counter.toFixed(2)} Ducks`;
+  checkUpgradeAvailability();
+});
