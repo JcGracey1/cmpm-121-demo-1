@@ -40,7 +40,7 @@ interface UpgradeItem {
 const items: UpgradeItem[] = [
   { name: "A", cost: 10, rate: 0.1, count: 0 },
   { name: "B", cost: 100, rate: 2.0, count: 0 },
-  { name: "C", cost: 1000, rate: 50.0, count: 0 }
+  { name: "C", cost: 1000, rate: 50.0, count: 0 },
 ];
 
 // Create upgrade buttons and status displays for each item
