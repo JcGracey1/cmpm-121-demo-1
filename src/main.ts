@@ -34,21 +34,28 @@ interface Item {
   rate: number;
   count: number;
   baseCost: number;
+  description: string;
   button?: HTMLButtonElement; // Optional button property
 }
 
 // Upgrade options with an additional cost multiplier:
 const availableItems: Item[] = [
-  { name: "quack", cost: 10, rate: 0.1, count: 0, baseCost: 10 },
-  { name: "QUACK", cost: 100, rate: 2.0, count: 0, baseCost: 100 },
-  {
-    name: "QUACK QUACK QUACK",
-    cost: 1000,
-    rate: 50.0,
-    count: 0,
-    baseCost: 1000,
-  },
+  { name: "quack", cost: 10, rate: 0.1, count: 0, baseCost: 1,  description: "A simple quack. Slightly increases your duck count per second."  },
+  { name: "QUACK", cost: 50, rate: 2.0, count: 0, baseCost: 50, description: "A louder QUACK! This one draws attention, earning you more ducks." },
+  { name: "QUACK QUACK QUACK", cost: 100, rate: 50.0, count: 0, baseCost: 100, description: "A triple-quack combo! Watch those ducks flock to you." },
+  { name: "QUACKKK", cost: 1000, rate: 100, count: 0, baseCost: 1000, description: "The QUACKKK that echoes across the lake, attracting massive numbers of ducks." },
+  { name: "Honk", cost: 10000, rate: 200, count: 0, baseCost: 10000, description: "HONK! Goose power is here. It really speeds up duck production." },
 ];
+
+// Create a div element to display item descriptions
+const descriptionDiv = document.createElement("div");
+descriptionDiv.style.border = "1px solid #ccc";
+descriptionDiv.style.padding = "10px";
+descriptionDiv.style.background = "white"; // White background for visibility
+descriptionDiv.style.position = "absolute"; // Set position to absolute
+descriptionDiv.style.display = "none"; // Initially hidden
+descriptionDiv.style.pointerEvents = "none"; // Allow mouse to pass through
+app.append(descriptionDiv);
 
 // Create upgrade buttons and status displays for each item
 availableItems.forEach((item) => {
@@ -60,6 +67,20 @@ availableItems.forEach((item) => {
   const itemStatusDiv = document.createElement("div");
   itemStatusDiv.innerHTML = `${item.name} purchased: ${item.count}`;
   app.append(itemStatusDiv);
+
+  // Add event listener to display item description on mouse hover
+  upgradeButton.addEventListener("mousemove", (event) => {
+    descriptionDiv.style.display = "block"; // Show the description
+    descriptionDiv.innerHTML = item.description; // Set the description text
+
+    // Position the description div near the mouse cursor
+    descriptionDiv.style.left = `${event.pageX + 15}px`; // Offset slightly from cursor
+    descriptionDiv.style.top = `${event.pageY + 15}px`;
+  });
+  
+  upgradeButton.addEventListener("mouseout", () => {
+    descriptionDiv.style.display = "none"; // Hide the description when mouse leaves
+  });
 
   // Add event listener to each upgrade button
   upgradeButton.addEventListener("click", () => {
