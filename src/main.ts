@@ -28,7 +28,7 @@ growthRateDiv.innerHTML = `Growth Rate: ${growthRate.toFixed(2)} Ducks/sec`;
 app.append(growthRateDiv);
 
 // Define an interface to represent each item
-interface UpgradeItem {
+interface Item {
   name: string;
   cost: number;
   rate: number;
@@ -38,14 +38,20 @@ interface UpgradeItem {
 }
 
 // Upgrade options with an additional cost multiplier:
-const items: UpgradeItem[] = [
+const availableItems: Item[] = [
   { name: "quack", cost: 10, rate: 0.1, count: 0, baseCost: 10 },
   { name: "QUACK", cost: 100, rate: 2.0, count: 0, baseCost: 100 },
-  { name: "QUACK QUACK QUACK", cost: 1000, rate: 50.0, count: 0, baseCost: 1000 },
+  {
+    name: "QUACK QUACK QUACK",
+    cost: 1000,
+    rate: 50.0,
+    count: 0,
+    baseCost: 1000,
+  },
 ];
 
 // Create upgrade buttons and status displays for each item
-items.forEach((item) => {
+availableItems.forEach((item) => {
   const upgradeButton = document.createElement("button");
   upgradeButton.innerHTML = `${item.name} (costs ${item.cost.toFixed(2)})`;
   upgradeButton.disabled = true; // Initially disabled
@@ -87,7 +93,7 @@ button.addEventListener("click", () => {
 
 // Check if any upgrade button should be enabled
 function checkUpgradeAvailability() {
-  items.forEach((item) => {
+  availableItems.forEach((item) => {
     const upgradeButton = item.button!;
     upgradeButton.disabled = counter < item.cost; // Enable only if player can afford it
   });
