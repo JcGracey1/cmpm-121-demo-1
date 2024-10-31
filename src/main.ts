@@ -41,11 +41,55 @@ interface Item {
 
 // Upgrade options with an additional cost multiplier:
 const availableItems: Item[] = [
-  { name: "quack", cost: 10, rate: 0.1, count: 0, baseCost: 1, description: "A simple quack. Slightly increases your duck count per second.", unlocked: false },
-  { name: "QUACK", cost: 50, rate: 2.0, count: 0, baseCost: 50, description: "A louder QUACK! This one draws attention, earning you more ducks.", unlocked: false },
-  { name: "QUACK QUACK QUACK", cost: 100, rate: 50.0, count: 0, baseCost: 100, description: "A triple-quack combo! Watch those ducks flock to you.", unlocked: false },
-  { name: "QUACKKK", cost: 1000, rate: 100, count: 0, baseCost: 1000, description: "The QUACKKK that echoes across the lake, attracting massive numbers of ducks.", unlocked: false },
-  { name: "Honk", cost: 10000, rate: 200, count: 0, baseCost: 10000, description: "HONK! Goose power is here. It really speeds up duck production.", unlocked: false },
+  {
+    name: "quack",
+    cost: 10,
+    rate: 0.1,
+    count: 0,
+    baseCost: 1,
+    description:
+      "A simple quack. Slightly increases your duck count per second.",
+    unlocked: false,
+  },
+  {
+    name: "QUACK",
+    cost: 50,
+    rate: 2.0,
+    count: 0,
+    baseCost: 50,
+    description:
+      "A louder QUACK! This one draws attention, earning you more ducks.",
+    unlocked: false,
+  },
+  {
+    name: "QUACK QUACK QUACK",
+    cost: 100,
+    rate: 50.0,
+    count: 0,
+    baseCost: 100,
+    description: "A triple-quack combo! Watch those ducks flock to you.",
+    unlocked: false,
+  },
+  {
+    name: "QUACKKK",
+    cost: 1000,
+    rate: 100,
+    count: 0,
+    baseCost: 1000,
+    description:
+      "The QUACKKK that echoes across the lake, attracting massive numbers of ducks.",
+    unlocked: false,
+  },
+  {
+    name: "Honk",
+    cost: 10000,
+    rate: 200,
+    count: 0,
+    baseCost: 10000,
+    description:
+      "HONK! Goose power is here. It really speeds up duck production.",
+    unlocked: false,
+  },
 ];
 
 // Create a div element to display item descriptions
@@ -79,7 +123,7 @@ availableItems.forEach((item) => {
     descriptionDiv.style.left = `${event.pageX + 15}px`; // Offset slightly from cursor
     descriptionDiv.style.top = `${event.pageY + 15}px`;
   });
-  
+
   upgradeButton.addEventListener("mouseout", () => {
     descriptionDiv.style.display = "none"; // Hide the description when mouse leaves
   });
@@ -128,7 +172,6 @@ function checkUpgradeAvailability() {
     }
   });
 }
-
 
 let lastTime = performance.now();
 
