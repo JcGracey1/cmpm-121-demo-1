@@ -159,6 +159,8 @@ button.addEventListener("click", () => {
 });
 
 // Check if any upgrade button should be enabled
+// Idea credit to only show buttons once upgrade has become available:
+// https://elliem-gd.github.io/cmpm-121-demo-1/
 function checkUpgradeAvailability() {
   availableItems.forEach((item) => {
     const upgradeButton = item.button!;
